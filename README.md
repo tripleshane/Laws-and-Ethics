@@ -1,3 +1,3 @@
 # Laws-and-Ethics
 Assigned
-[index.html] ;-;
+[camp_code_computing_laws.html] ;-;
