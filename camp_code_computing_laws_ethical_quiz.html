@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Camp Code — Computing Laws</title>
+  <link href="https://fonts.cdnfonts.com/css/family-camping" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #e99a08;
+      --gold-light: #ffc34a;
+      --brown: #3b241c;
+      --cream: #fffaf0;
+      --ink: #251b17;
+      --muted: #66564d;
+      --green: #526b43;
+    }
+    * { box-sizing: border-box; }
+    html { font-size: 75%; }
+    body {
+      margin: 0;
+      background: #f4efe6;
+      color: var(--ink);
+      font-family: 'Trebuchet MS', Arial, sans-serif;
+      line-height: 1.55;
+    }
+    .poster {
+      width: min(1100px, calc(100% - 32px));
+      margin: 28px auto;
+      background: var(--cream);
+      border: 7px solid white;
+      box-shadow: 0 8px 28px #35251c20;
+      overflow: hidden;
+    }
+    header {
+      position: relative;
+      padding: 44px 8% 38px;
+      background: #fffdf8;
+      border-bottom: 3px solid var(--brown);
+      min-height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+    .eyebrow {
+      color: var(--green);
+      font-size: .85rem;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    h1 {
+      max-width: 600px;
+      margin: 8px 0 12px;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(2.5rem, 6vw, 4.8rem);
+      line-height: .98;
+      color: var(--brown);
+    }
+    .subtitle { max-width: 560px; color: var(--muted); font-size: 1.08rem; }
+    .signpost { flex: 0 0 190px; text-align: center; }
+    .signpost .post {
+      width: 15px; height: 175px; margin: 0 auto;
+      background: repeating-linear-gradient(0deg, #4a3026 0 3px, #f1e6d7 3px 5px);
+      border-radius: 4px;
+    }
+    .sign {
+      position: relative; z-index: 1; width: 190px;
+      margin: -155px auto 20px; padding: 12px 14px;
+      color: white; background: var(--gold);
+      font-weight: 900; text-transform: uppercase; letter-spacing: .07em;
+      clip-path: polygon(0 0, 87% 0, 100% 50%, 87% 100%, 0 100%, 14% 50%);
+      filter: drop-shadow(2px 3px 0 #3b241c);
+    }
+    .sign.second { margin-top: 0; background: var(--brown); transform: translateX(-10px); }
+    .campfire {
+      width: 150px; height: 130px; position: relative; margin: 0 auto;
+    }
+    .flame {
+      position: absolute; left: 48px; top: 0; width: 58px; height: 80px;
+      background: var(--gold);
+      border-radius: 70% 15% 65% 45%;
+      transform: rotate(12deg);
+      clip-path: polygon(55% 0, 100% 48%, 82% 78%, 50% 100%, 18% 80%, 0 51%, 26% 30%, 28% 57%);
+    }
+    .flame:after {
+      content: ""; position: absolute; left: 19px; top: 35px; width: 23px; height: 35px;
+      background: var(--cream); border-radius: 70% 15% 65% 45%;
+    }
+    .log {
+      position: absolute; bottom: 16px; left: 10px; width: 130px; height: 17px;
+      background: var(--brown); border: 2px solid #fffaf0; border-radius: 20px;
+      transform: rotate(22deg);
+    }
+    .log.two { transform: rotate(-22deg); }
+    .camp-section { padding: 34px 8%; }
+    .section-heading {
+      display: flex; align-items: center; gap: 12px;
+      margin: 0 0 18px; color: var(--brown);
+      font-family: Georgia, 'Times New Roman', serif; font-size: 2rem;
+    }
+    .section-heading .badge {
+      display: inline-grid; place-items: center; flex: 0 0 42px; height: 42px;
+      border-radius: 50%; background: var(--gold); color: white;
+      font-family: Arial, sans-serif; font-size: 1rem; font-weight: 900;
+    }
+    .intro {
+      display: grid; grid-template-columns: 1.15fr .85fr; gap: 28px; align-items: center;
+    }
+    .intro p { margin-top: 0; }
+    .camp-note {
+      padding: 20px; border-left: 5px solid var(--gold);
+      background: #f8edd6; border-radius: 0 12px 12px 0;
+    }
+    .cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .card {
+      padding: 22px; background: white; border: 2px solid #ead8b8;
+      border-radius: 14px; box-shadow: 0 4px 0 #3b241c0a;
+    }
+    .card h3 { margin: 0 0 8px; color: var(--brown); font-size: 1.2rem; }
+    .card p { margin: 7px 0; }
+    .tag {
+      display: inline-block; margin-bottom: 10px; padding: 4px 9px;
+      border-radius: 999px; background: #fff0c9; color: #6b4300;
+      font-size: .76rem; font-weight: 900; letter-spacing: .06em; text-transform: uppercase;
+    }
+    .rule-list { padding-left: 22px; margin-bottom: 0; }
+    .rule-list li { margin: 8px 0; }
+    .trail {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px;
+    }
+    .trail-step {
+      padding: 18px; border-radius: 12px; background: #f3eadb;
+      border-top: 5px solid var(--green);
+    }
+    .trail-step h3 { margin: 0 0 8px; font-size: 1.05rem; }
+    .source-list li { margin: 10px 0; overflow-wrap: anywhere; }
+    a { color: #744800; }
+    footer {
+      padding: 22px 8%; background: var(--brown); color: #fff8ec;
+      display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px;
+      font-size: .9rem;
+    }
+    footer strong { color: var(--gold-light); }
+    @media (max-width: 700px) {
+      header { flex-direction: column; align-items: flex-start; padding-top: 32px; }
+      .signpost { align-self: center; transform: scale(.85); margin: -10px 0 -15px; }
+      .intro, .cards, .trail { grid-template-columns: 1fr; }
+      .camp-section { padding: 28px 6%; }
+      .section-heading { font-size: 1.7rem; }
+    }
+
+    /* Interactive campsite quiz */
+    .quiz-intro { max-width: 760px; }
+    .quiz-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 20px; }
+    .quiz-question { padding: 18px; border: 2px solid #d8c29c; border-radius: 14px; background: #fffdf8; }
+    .quiz-question h3 { margin: 0 0 12px; color: var(--brown); font-size: 1.12rem; }
+    .quiz-question label { display: block; margin: 8px 0; padding: 8px 10px; border-radius: 8px; cursor: pointer; background: #f7f0e4; }
+    .quiz-question label:hover { background: #f0dfbf; }
+    .quiz-question input { margin-right: 8px; accent-color: var(--green); }
+    .quiz-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 18px; }
+    .quiz-button { border: 0; border-radius: 999px; padding: 11px 18px; font: inherit; font-weight: 800; cursor: pointer; }
+    .quiz-button.primary { background: var(--green); color: white; }
+    .quiz-button.secondary { background: #ead8b8; color: var(--brown); }
+    .quiz-button:focus-visible, .quiz-question input:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+    #quiz-result { display: none; margin-top: 18px; padding: 16px 18px; border-radius: 12px; background: #e8efdf; border-left: 5px solid var(--green); }
+    #quiz-result h3 { margin: 0 0 8px; color: var(--brown); }
+    #quiz-feedback { margin: 0; padding-left: 20px; }
+    #quiz-feedback li { margin: 6px 0; }
+    .choice-response { margin-top: 12px; padding: 11px 13px; border-left: 4px solid var(--green); border-radius: 8px; background: #e8efdf; color: #2f3e2a; font-size: .94rem; }
+    .choice-response strong { display: block; margin-bottom: 4px; }
+    .reflection-card { margin-top: 16px; padding: 14px; border-radius: 10px; background: #fff6df; border: 1px dashed #b98a43; }
+    .reflection-card p { margin: 7px 0 0; }
+    .quiz-question { min-width: 0; }
+    @media (max-width: 700px) { .quiz-grid { grid-template-columns: 1fr; } }
+
+    @media print {
+      body { background: white; }
+      .poster { width: 100%; margin: 0; border: 0; box-shadow: none; }
+      .card { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <main class="poster">
+    <header>
+      <div>
+        <div class="eyebrow">Camp Code • Digital Responsibility</div>
+        <h1>Computing<br> Laws & Ethics</h1>
+        <p class="subtitle">A trail guide to staying safe, respecting others, and following the rules in the digital wilderness.</p>
+      </div>
+      <div class="signpost" aria-label="Camping signpost decoration">
+        <div class="post"></div>
+        <div class="sign">Stay Secure</div>
+        <div class="sign second">Follow the Rules</div>
+      </div>
+    </header>
+
+    <section class="camp-section">
+      <h2 class="section-heading"><span class="badge">01</span> Ethics: Leave No Digital Trace</h2>
+      <div class="intro">
+        <div>
+          <p><strong>Technology ethics</strong> means using moral principles to decide how technology should be designed and used. Like respecting a campsite, ethical computing means thinking about how your actions affect others.</p>
+          <ul class="rule-list">
+            <li><strong>Privacy:</strong> Don't collect or share people's personal information unnecessarily.</li>
+            <li><strong>Security:</strong> Build and use software in ways that protect accounts and data.</li>
+            <li><strong>Fairness:</strong> Check whether an AI system treats people unfairly.</li>
+            <li><strong>Credit:</strong> Respect creators' work and follow software licenses.</li>
+            <li><strong>Accessibility:</strong> Make technology usable by people with different abilities.</li>
+          </ul>
+        </div>
+        <aside class="camp-note">
+          <strong>Camp rule:</strong> Just because you <em>can</em> collect data or copy code doesn't mean you <em>should</em>. Ethical developers consider privacy, harm, fairness, and trust before releasing software.
+        </aside>
+      </div>
+    </section>
+
+    <section class="camp-section" style="background:#fff5df">
+      <h2 class="section-heading"><span class="badge">02</span> Laws: Know the Trail Rules</h2>
+      <div class="cards">
+        <article class="card">
+          <span class="tag">Protect creative work</span>
+          <h3>Copyright law</h3>
+          <p>Protects qualifying original works, including software code. Copying or distributing code may require permission or compliance with its license.</p>
+          <p><strong>Trail example:</strong> Don't take another camper's map and claim you made it. Likewise, don't present someone else's code as your own.</p>
+          <p><a href="https://www.copyright.gov/register/tx-programs.html" target="_blank" rel="noopener noreferrer">U.S. Copyright Office: Computer Programs</a></p>
+        </article>
+        <article class="card">
+          <span class="tag">Protect kids online</span>
+          <h3>COPPA</h3>
+          <p>The Children's Online Privacy Protection Act applies to certain online services that collect personal information from children under 13. It includes requirements related to parental consent and data handling.</p>
+          <p><strong>Trail example:</strong> A covered game for young children may need parental consent before collecting certain personal details.</p>
+          <p><a href="https://www.ftc.gov/business-guidance/privacy-security/childrens-privacy" target="_blank" rel="noopener noreferrer">FTC: Children's Privacy</a></p>
+        </article>
+        <article class="card">
+          <span class="tag">Respect boundaries</span>
+          <h3>Computer crime laws</h3>
+          <p>Laws such as the federal Computer Fraud and Abuse Act address certain unauthorized access, fraud, and damage involving computers.</p>
+          <p><strong>Trail example:</strong> Don't enter a locked campsite without permission. Similarly, don't break into computer systems you aren't authorized to access.</p>
+          <p><a href="https://www.justice.gov/criminal/criminal-ccips" target="_blank" rel="noopener noreferrer">U.S. Department of Justice: Computer Crime</a></p>
+        </article>
+        <article class="card">
+          <span class="tag">Keep the campsite safe</span>
+          <h3>Privacy and consumer protection</h3>
+          <p>Applicable laws may require companies to protect personal information, honor privacy promises, and avoid deceptive practices. Exact requirements depend on the product and situation.</p>
+          <p><strong>Trail example:</strong> If an app promises to keep users' information private, its actual practices should match that promise.</p>
+          <p><a href="https://www.ftc.gov/business-guidance/privacy-security" target="_blank" rel="noopener noreferrer">FTC: Privacy and Security</a></p>
+        </article>
+      </div>
+    </section>
+
+    <section class="camp-section">
+      <h2 class="section-heading"><span class="badge">03</span> The Developer's Trail</h2>
+      <div class="trail">
+        <article class="trail-step">
+          <h3>1. Plan the route</h3>
+          Identify the users, the data the software needs, and the laws that may apply.
+        </article>
+        <article class="trail-step">
+          <h3>2. Pack responsibly</h3>
+          Use permitted code and design for privacy, accessibility, fairness, and security.
+        </article>
+        <article class="trail-step">
+          <h3>3. Check the campsite</h3>
+          Test for bugs and security problems, explain data practices clearly, and maintain the software after release.
+        </article>
+      </div>
+      <aside class="camp-note" style="margin-top:20px">
+        <strong>Remember:</strong> Ethics and law overlap, but they are not the same. Laws set enforceable requirements; ethics also asks what is fair, respectful, and responsible when the law doesn't give a complete answer.
+      </aside>
+    </section>
+
+    <section class="camp-section" style="background:#fff5df">
+      <h2 class="section-heading"><span class="badge">04</span> Sources & Trail Maps</h2>
+      <p>These government sources provide further information about computing laws and secure software development.</p>
+      <ol class="source-list">
+        <li>National Institute of Standards and Technology. <em>Secure Software Development Framework (SSDF).</em> <a href="https://csrc.nist.gov/projects/ssdf" target="_blank" rel="noopener noreferrer">NIST SSDF</a>.</li>
+        <li>U.S. Copyright Office. <em>Computer Programs.</em> <a href="https://www.copyright.gov/register/tx-programs.html" target="_blank" rel="noopener noreferrer">Copyright Office</a>.</li>
+        <li>Federal Trade Commission. <em>Children's Privacy.</em> <a href="https://www.ftc.gov/business-guidance/privacy-security/childrens-privacy" target="_blank" rel="noopener noreferrer">FTC Children's Privacy</a>.</li>
+        <li>U.S. Department of Justice. <em>Computer Crime and Intellectual Property Section.</em> <a href="https://www.justice.gov/criminal/criminal-ccips" target="_blank" rel="noopener noreferrer">DOJ CCIPS</a>.</li>
+        <li>Federal Trade Commission. <em>Privacy and Security.</em> <a href="https://www.ftc.gov/business-guidance/privacy-security" target="_blank" rel="noopener noreferrer">FTC Privacy and Security</a>.</li>
+      </ol>
+    </section>
+
+
+    <section class="camp-section" id="camp-quiz" style="background:#f8edd6">
+      <h2 class="section-heading"><span class="badge">05</span> Campfire Challenge: Ethical Trail Decisions</h2>
+      <p class="quiz-intro">At this campsite, not every decision is as simple as right or wrong. Choose what you would do in each situation. You’ll get a response to your choice, then a final trail report with questions to help you think through the consequences.</p>
+      <p><strong>Your mission:</strong> Think about who could be helped or harmed, whose permission matters, and what a responsible next step would look like.</p>
+      <form id="quiz-form">
+        <div class="quiz-grid">
+          <fieldset class="quiz-question" data-topic="Privacy" data-reflection="What is the smallest amount of information you would need to solve the problem?">
+            <legend class="eyebrow">Trail Marker 1 · The Lost Notebook</legend>
+            <h3>1. You find a notebook at camp containing another camper’s phone number and personal notes. A friend wants to post a photo of it in the group chat to find its owner. What do you do?</h3>
+            <label><input type="radio" name="q1" value="a" data-feedback="Your goal—finding the owner—is helpful, but posting the page could expose private details to people who do not need them. Try sharing a description of the notebook or handing it to the camp leader instead."> Post the whole page so everyone can identify the owner.</label>
+            <label><input type="radio" name="q1" value="b" data-feedback="This protects the owner’s privacy while still solving the problem. Share only a minimal description, or give the notebook to a trusted camp leader who can return it."> Keep the details private and ask a camp leader to return it.</label>
+            <label><input type="radio" name="q1" value="c" data-feedback="Keeping a copy creates another place where sensitive information could be exposed. Unless there is a clear, legitimate need, avoid copying it and help return the original safely."> Take a picture for yourself, then put it back.</label>
+            <div class="choice-response" aria-live="polite" hidden></div>
+          </fieldset>
+          <fieldset class="quiz-question" data-topic="Copyright and credit" data-reflection="How can you make your project useful while being honest about other people’s work?">
+            <legend class="eyebrow">Trail Marker 2 · The Borrowed Tent Design</legend>
+            <h3>2. You find a brilliant piece of code that would make your campsite website work better. The deadline is tonight. What is the most responsible move?</h3>
+            <label><input type="radio" name="q2" value="a" data-feedback="A deadline is real pressure, but removing credit hides someone else’s contribution and may violate the license. Check the terms before using the code and credit the author as required."> Copy it and remove the author’s name to save time.</label>
+            <label><input type="radio" name="q2" value="b" data-feedback="Giving credit is important, but it does not automatically grant permission. Check the license and follow its conditions; if the terms do not allow your use, ask permission or choose another solution."> Credit the author, but skip checking the license.</label>
+            <label><input type="radio" name="q2" value="c" data-feedback="This respects both the creator and the rules attached to the code. If the license is unclear, ask for guidance or permission rather than assuming."> Check the license, follow its conditions, and credit the creator when required.</label>
+            <div class="choice-response" aria-live="polite" hidden></div>
+          </fieldset>
+          <fieldset class="quiz-question" data-topic="Authorization" data-reflection="What permission would you need, and how could you report the issue safely?">
+            <legend class="eyebrow">Trail Marker 3 · The Locked Ranger Station</legend>
+            <h3>3. A classmate says they discovered a way into a school system that students are not allowed to access. They want you to test it with them “just once.” What do you do?</h3>
+            <label><input type="radio" name="q3" value="a" data-feedback="Curiosity can help people learn, but testing access without permission can expose data or disrupt systems even if you do not intend harm. Ask for an authorized practice environment instead."> Join them, but promise not to change anything.</label>
+            <label><input type="radio" name="q3" value="b" data-feedback="This avoids unauthorized testing and gives the school a chance to investigate. Share only what is needed with a trusted teacher or IT contact; do not spread the access details around."> Do not test it; report the concern to a trusted teacher or IT staff.</label>
+            <label><input type="radio" name="q3" value="c" data-feedback="Trying passwords or using another person’s account still crosses an authorization boundary. A safer route is to ask for permission and use a legitimate training system."> Try a few passwords to see how serious it is.</label>
+            <div class="choice-response" aria-live="polite" hidden></div>
+          </fieldset>
+          <fieldset class="quiz-question" data-topic="Children's privacy" data-reflection="What should a service explain clearly to young users and their parents or guardians?">
+            <legend class="eyebrow">Trail Marker 4 · The Junior Camp App</legend>
+            <h3>4. Your team is building an app for young campers. It asks users for names, locations, and photos. What should guide your design?</h3>
+            <label><input type="radio" name="q4" value="a" data-feedback="Collecting extra information “just in case” increases the risk if it is misused or exposed. Start by asking what data is truly necessary, and build appropriate privacy protections into the service."> Collect as much data as possible in case it becomes useful later.</label>
+            <label><input type="radio" name="q4" value="b" data-feedback="A fun design does not replace privacy safeguards. For services covered by COPPA, specific requirements can apply to collecting personal information from children under 13; the team should understand the rules, consent requirements, and data practices before launch."> Minimize data collection, explain the use clearly, and follow applicable child-privacy rules.</label>
+            <label><input type="radio" name="q4" value="c" data-feedback="A checkbox alone may not meet legal requirements or create meaningful understanding. Explain the data practices plainly, collect only what is needed, and determine which consent and protection rules apply."> Add a long terms page and assume everyone has agreed.</label>
+            <div class="choice-response" aria-live="polite" hidden></div>
+          </fieldset>
+          <fieldset class="quiz-question" data-topic="Fairness in AI" data-reflection="Who should be included when checking whether the system causes unfair outcomes?">
+            <legend class="eyebrow">Trail Marker 5 · The Unfair Trail Map</legend>
+            <h3>5. An AI tool recommends campsite jobs. You notice it repeatedly gives one group less desirable jobs, even when their experience is similar. Your supervisor says the tool saves time. What do you do?</h3>
+            <label><input type="radio" name="q5" value="a" data-feedback="Saving time matters, but it does not erase unfair impact. Document the pattern, investigate the data and process, involve affected people where appropriate, and pause or limit harmful use while it is assessed."> Keep using it because the average results look efficient.</label>
+            <label><input type="radio" name="q5" value="b" data-feedback="Hiding the evidence avoids accountability and makes it harder to fix the problem. A better response is to raise the concern, test for causes, and communicate honestly about limitations and next steps."> Hide the results so campers do not lose trust in the tool.</label>
+            <label><input type="radio" name="q5" value="c" data-feedback="This prioritizes people affected by the system rather than treating the output as automatically neutral. Look for patterns, test alternatives, document findings, and make sure people can question or appeal decisions."> Investigate the pattern, test for bias, and reduce harm before relying on it.</label>
+            <div class="choice-response" aria-live="polite" hidden></div>
+          </fieldset>
+          <fieldset class="quiz-question" data-topic="Security and responsibility" data-reflection="What security check would be most important before launch, and who needs to know about the risk?">
+            <legend class="eyebrow">Trail Marker 6 · The Worn-Out Gear</legend>
+            <h3>6. Your website is almost ready to launch, but you discover a security flaw. Fixing it will delay the camp event registration. What is the responsible response?</h3>
+            <label><input type="radio" name="q6" value="a" data-feedback="A deadline matters, but knowingly launching with a serious unresolved flaw can put users’ information at risk. Tell the responsible people, assess the severity, and fix or mitigate the issue before exposing users where appropriate."> Launch on time and hope nobody discovers it.</label>
+            <label><input type="radio" name="q6" value="b" data-feedback="This treats security as part of development rather than an afterthought. Communicate the risk, prioritize a fix or mitigation, test the change, and explain any necessary delay honestly."> Tell the team, assess the risk, fix or mitigate it, and test before launch.</label>
+            <label><input type="radio" name="q6" value="c" data-feedback="Silently removing features may not address the underlying vulnerability and can create new problems. Explain the risk to the team and make a tested, deliberate decision about repair or mitigation."> Delete the feature without telling anyone what happened.</label>
+            <div class="choice-response" aria-live="polite" hidden></div>
+          </fieldset>
+        </div>
+        <div class="quiz-actions">
+          <button class="quiz-button primary" type="submit">Submit Trail Report</button>
+          <button class="quiz-button secondary" type="reset" id="reset-quiz">Start the Quiz Over</button>
+        </div>
+      </form>
+      <div id="quiz-result" role="status" aria-live="polite">
+        <h3 id="quiz-score"></h3>
+        <p id="quiz-message"></p>
+        <ul id="quiz-feedback"></ul>
+        <div class="reflection-card"><strong>One last campfire reflection</strong><p>Before you leave, choose one decision above and ask yourself: Who might be affected by this choice? What could go wrong even if my intentions are good? What could I do to make the outcome fairer, safer, or more respectful?</p></div>
+      </div>
+    </section>
+
+    <footer>
+      <div><strong>Camp Code</strong> · Performance Standard 5.3</div>
+      <div>Be safe. Be fair. Respect the rules.</div>
+    </footer>
+  </main>
+
+  <script>
+    (() => {
+      const form = document.getElementById('quiz-form');
+      const result = document.getElementById('quiz-result');
+      const scoreHeading = document.getElementById('quiz-score');
+      const message = document.getElementById('quiz-message');
+      const feedbackList = document.getElementById('quiz-feedback');
+      const questions = [...form.querySelectorAll('.quiz-question')];
+
+      // Show a tailored response as soon as the learner chooses an option.
+      questions.forEach((question, index) => {
+        const response = question.querySelector('.choice-response');
+        question.querySelectorAll('input[type="radio"]').forEach((input) => {
+          input.addEventListener('change', () => {
+            response.hidden = false;
+            response.replaceChildren();
+            const heading = document.createElement('strong');
+            heading.textContent = 'Campfire thought';
+            const body = document.createElement('span');
+            body.textContent = input.dataset.feedback;
+            response.append(heading, body);
+          });
+        });
+      });
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        feedbackList.replaceChildren();
+        let answered = 0;
+        questions.forEach((question, index) => {
+          const name = 'q' + (index + 1);
+          const selected = form.querySelector('input[name="' + name + '"]:checked');
+          const item = document.createElement('li');
+          const topic = question.dataset.topic;
+          if (selected) {
+            answered++;
+            item.textContent = 'Trail marker ' + (index + 1) + ' — ' + topic + ': ' + selected.dataset.feedback + ' Reflection: ' + question.dataset.reflection;
+          } else {
+            item.textContent = 'Trail marker ' + (index + 1) + ' — ' + topic + ': You skipped this decision. Consider who could be affected, what permission or information is needed, and how you could reduce harm. Reflection: ' + question.dataset.reflection;
+          }
+          feedbackList.appendChild(item);
+        });
+        scoreHeading.textContent = 'Trail report: ' + answered + ' of ' + questions.length + ' decisions explored';
+        message.textContent = answered === questions.length
+          ? 'You have considered every campsite dilemma. The goal is not just to memorize rules: ethical computing means thinking about people, consequences, fairness, privacy, permission, and accountability.'
+          : 'Your report is a work in progress. You can still learn from the choices you made; answer the remaining dilemmas to hear their tailored responses.';
+        result.style.display = 'block';
+        result.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+      });
+
+      form.addEventListener('reset', () => {
+        result.style.display = 'none';
+        scoreHeading.textContent = '';
+        message.textContent = '';
+        feedbackList.replaceChildren();
+        questions.forEach((question) => {
+          const response = question.querySelector('.choice-response');
+          response.hidden = true;
+          response.replaceChildren();
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>
